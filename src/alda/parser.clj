@@ -77,6 +77,14 @@
           :clj-map           #(read-clj-coll %& "{%s}")
           :clj-set           #(read-clj-coll %& "#{%s}")
           :clj-expr          #(read-clj-expr %&)
+          :code-block        #(list 
+                                'alda.lisp/code-block
+                                (apply str 
+                                       (map (fn [x]
+                                              (if (list? x)
+                                                (str \[ (second x) \])
+                                                x)) 
+                                            %&)))
           :name              #(hash-map :name %)
           :nickname          #(hash-map :nickname %)
           :number            #(Integer/parseInt %)
@@ -110,3 +118,4 @@
                                    {:names names})))
           :part              #(list* 'alda.lisp/part %&)
           :score             #(list* 'alda.lisp/score %&)})))
+
